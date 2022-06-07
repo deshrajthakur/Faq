@@ -1,0 +1,82 @@
+<section class="about_us_banner m0">
+  <div class="page-width">
+    {% if section.settings.text !=blank %}
+    <h1>{{ section.settings.text }}</h1>
+    {% endif %}
+  </div>
+</section>
+<section class="faqs">
+  <div class="page-width">
+    <div class="faq_content">
+      {% for block in section.blocks %}
+      <button class="accordion">{{ block.settings.text }}</button>
+      <div class="panel">
+        {{ block.settings.answer }}
+      </div>
+      {% endfor %}     
+    </div>
+  </div>
+</section>
+<style>
+  .faq_content { width:100%; margin:0px; padding:0px 0 60px;  }
+  .accordion { cursor: pointer;  padding: 18px; width: 100%; border: none; text-align: left; outline: none; font-size: 15px; transition: 0.4s;}
+  button.accordion { font-weight: 600;  font-size: 17px; background: no-repeat; border-bottom: 1px solid #ccc; line-height: 25px; padding-right: 40px; position: relative;}
+  .panel p { font-size: 13px;  }
+  button.accordion::after { content: "+"; position: absolute; right: 15px; top: 32%; font-size: 28px; }
+  button.accordion.active::after {  content: "--"; letter-spacing: -8px; right: 8px;}
+  .panel { font-size: 16px; }
+  .active, .accordion:hover { background-color: #fffdfd; }
+  .panel { padding: 0 18px; display: none; background-color: white; overflow: hidden; }
+  .panel p { font-size: 15px;} 
+</style>
+{% schema %}
+  {
+    "name": "FAQ",
+    "settings": [
+{
+    "type": "text",
+    "id": "text",
+    "label": "Heading"
+    }
+],
+"blocks": [
+     {
+       "name": "Faq item",
+       "type": "text",
+       "settings": [
+         {
+           "type": "text",
+           "id": "text",
+           "label": "Add Question"
+         },
+		{
+        "type": "richtext",
+        "id": "answer",
+        "label": "Add Answer"
+        }
+       ]
+     }
+   ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+{% javascript %}
+
+var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+  acc[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var panel = this.nextElementSibling;
+    if (panel.style.display === "block") {
+      panel.style.display = "none";
+    } else {
+      panel.style.display = "block";
+    }
+  });
+}
+{% endjavascript %}
